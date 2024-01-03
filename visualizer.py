@@ -14,9 +14,11 @@ def CreateRectangles():
             if amplitude>0:
                 rectangle_dim=(i*rectangle_width,screen_height/2-screen_height/3*amplitude/2147483647 ,rectangle_width,screen_height/3*amplitude/2147483647 )
                 pygame.draw.rect(window,(33,156,144),rectangle_dim)
+                pygame.draw.circle(window,(255,255,255),(i*rectangle_width,screen_height/2-amplitude/(2147483647 )*screen_height/3),1)
             else:
                 rectangle_dim=(i*rectangle_width,screen_height/2,rectangle_width,amplitude/(-2147483647 )*screen_height/3)
                 pygame.draw.rect(window,(255,0,0),rectangle_dim)
+                pygame.draw.circle(window,(255,255,255),(i*rectangle_width,screen_height/2+amplitude/(-2147483647 )*screen_height/3),1)
 
 def init(status,filename):
     global framerate
