@@ -2,19 +2,25 @@ import pygame
 import wave
 import numpy as np
 import sys
+from scipy.fft import fft
 
 screen_width=1200
 screen_height=700
 fps=60
 number_bars=100
-with wave.open('song4.wav','rb') as audio_file:
+white=(255,255,255)
+black=(0,0,0)
+current_color=black
+
+
+with wave.open('song3.wav','rb') as audio_file:
     channels,sample_width,framerate,nframes=audio_file.getparams()[0:4]
     print(channels, sample_width)
     data=np.frombuffer(audio_file.readframes(nframes),np.int32)
 
 pygame.init()
 pygame.mixer.init()
-pygame.mixer.music.load('song4.wav')
+pygame.mixer.music.load('song3.wav')
 clock=pygame.time.Clock()
 
 window=pygame.display.set_mode((screen_width,screen_height))
@@ -34,14 +40,24 @@ def CreateRectangles():
                 pygame.draw.rect(window,(255,0,0),rectangle_dim)
 
 pygame.mixer.music.play()
+
+toggle_bg = pygame.Rect(1050, 10, 100, 30)
 while True:
-    window.fill((0,0,0))
+    window.fill(current_color)
     CreateRectangles()
+    pygame.draw.rect(window, (233, 184, 36), toggle_bg)
+    font = pygame.font.Font(None, 28)
+    text = font.render("Toggle Bg", True, (0, 0, 0))
+    text_rect = text.get_rect(center=toggle_bg.center)
+    window.blit(text, text_rect)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.mixer.music.unload()
             pygame.quit()
             sys.exit()
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if toggle_bg.collidepoint(event.pos):
+                current_color = black if current_color == white else white
     pygame.display.flip()
 
     clock.tick(fps)
