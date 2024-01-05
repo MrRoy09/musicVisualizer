@@ -4,6 +4,7 @@ import subprocess
 import os
 import fttmode
 import visualizer
+import energy
 
 if len(sys.argv)!=3:
     yt = YouTube(str(input("Enter the URL of the video you want to visualize: \n>> ")))
@@ -26,5 +27,7 @@ if mode==1:
     fttmode.init(True,'audio.wav')
 elif mode==2:
     visualizer.init(True,'audio.wav')
+elif mode==3:
+    energy.init(True,'audio.wav')
 else:
     print("wrong mode")

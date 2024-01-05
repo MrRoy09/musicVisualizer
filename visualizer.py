@@ -2,7 +2,6 @@ import pygame
 import wave
 import numpy as np
 import sys
-from scipy.fft import fft
 import os
 
 def CreateRectangles():
@@ -33,7 +32,7 @@ def init(status,filename):
     screen_width=1200
     screen_height=700
     fps=60
-    number_bars=100
+    number_bars=80
     white=(255,255,255)
     black=(0,0,0)
     current_color=black
