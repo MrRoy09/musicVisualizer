@@ -5,7 +5,7 @@ import os
 import music_visualize
 
 if len(sys.argv)!=2:
-    yt = YouTube(str(input("Enter the URL of the video you want to visualize: \n>> ")))
+    yt = YouTube(str(input("Enter the URL of the video: \n>> ")))
 else:
     yt=YouTube(sys.argv[1])
 video = yt.streams.filter(only_audio=True).first() 
