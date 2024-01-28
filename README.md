@@ -12,3 +12,6 @@ python ./song_finder.py
 
 ## Dependencies 
 Apart from requirements.txt, ffmpeg must be installed (Used to convert .mp3 to .wav)
+
+## Note
+The youtube vid is saved as audio.wav in the working directory
