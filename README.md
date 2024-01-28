@@ -1,9 +1,14 @@
 # Music Visualizer in Python
+A simple python tool to download music from youtube and visualize it.
 
+Use enter key to alternate between amplitude - time and frequency-time
+<br>
+
+
+## Usage
 ```
-Usage : python ./song_finder.py
+python ./song_finder.py
 ```
 
-<br>
-<br>
-Use enter to change between frequency-time and amplitude-time
+## Dependencies 
+Apart from requirements.txt, ffmpeg must be installed (Used to convert .mp3 to .wav)
