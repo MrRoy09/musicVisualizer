@@ -1,0 +1,5 @@
+pytube
+numpy
+pygame
+scipy
+wave

@@ -3,12 +3,9 @@ import wave
 import numpy as np
 import sys
 from scipy.fft import fft,fftfreq,fftshift
-import matplotlib.pyplot as plt
 import os
 import math
 import random
-
-colors=[(0,0,225),(225,0,0),(0,255,0),(255,0,0),(0,0,255)]
 
 def signalProducer():
     global start
@@ -30,7 +27,7 @@ def CreateRectangles(transformed):
             rect_h=screen_height-30
             rect_y=screen_height-rect_h
         rect_dim=(rect_x,rect_y,rect_w,rect_h)
-        pygame.draw.rect(window,colors[random.randint(0,4)],rect_dim)
+        pygame.draw.rect(window,colors[random.randint(0,len(colors)-1)],rect_dim)
         pygame.draw.rect(window,(0,0,0),rect_dim,width=2)
     pygame.display.flip()
 
@@ -76,21 +73,14 @@ def beatDetect():
     pygame.display.flip()
 
 def init(status,filename,pos=0.0):
-    global screen_height
-    global screen_width
-    global number_bars
-    global frames
-    global fps
-    global framerate
-    global data 
-    global beat_data
-    global window
-    global mode
-    global energy_history
-    global black,white
+    global screen_height,screen_width,number_bars,frames,fps,framerate,data,beat_data,window,mode,energy_history,color_set,colors,color_mode,unpaused,current_pointer
+    current_pointer=0.0
+    color_set=[[(255,0,0),(0,255,0),(0,0,255)]]
     mode=0
+    color_mode=0
     number_bars=80
     energy_history=[]
+    unpaused=True
 
     if status==True:
         screen_width=1200
@@ -105,8 +95,6 @@ def init(status,filename,pos=0.0):
         pygame.mixer.music.load(filename)
         clock=pygame.time.Clock()
         window=pygame.display.set_mode((screen_width,screen_height))
-
-       
         pygame.mixer.music.play()
         while True:
             window.fill((0,0,0))
@@ -114,28 +102,42 @@ def init(status,filename,pos=0.0):
                 if event.type == pygame.QUIT:
                     pygame.mixer.music.unload()
                     pygame.quit()
-                    os.remove('audio.wav')
+                    remove_file=input("Remove file? Y/N: ")
+                    if remove_file.upper()=='Y':
+                        os.remove('audio.wav')
                     sys.exit()
                 if event.type==pygame.KEYDOWN:
-                    if event.key==pygame.K_SPACE:
+                    if event.key==pygame.K_RETURN:
                         mode=(mode+1)%3
-            if mode==0:
-                fps=30
-                frames=framerate*1/fps
-                signalProducer()
-                clock.tick(fps) 
-            elif mode==1:
-                fps=60
-                frames=framerate*1/fps
-                CreateRectangles_Visualizer()
-                clock.tick(fps) 
-            elif mode==2:
-                fps=60
-                frames=framerate*1/fps
-                if len(energy_history)>=int(frames*10):
-                    energy_history=energy_history[int(frames*8):]
-                beatDetect()
-                window.fill((0,0,0))
-                pygame.display.flip()
+                    if event.key==pygame.K_SPACE:
+                        if unpaused:
+                            unpaused=False
+                            pygame.mixer.music.pause()
+                        else:
+                            unpaused=True
+                            pygame.mixer.music.unpause()
+
+            if unpaused:
+                if mode==0:
+                    colors=color_set[color_mode]
+                    fps=30
+                    frames=framerate*1/fps
+                    signalProducer()
+                    clock.tick(fps) 
+                elif mode==1:
+                    fps=60
+                    frames=framerate*1/fps
+                    CreateRectangles_Visualizer()
+                    clock.tick(fps) 
+                elif mode==2:
+                    fps=60
+                    frames=framerate*1/fps
+                    if len(energy_history)>=int(frames*10):
+                        energy_history=energy_history[int(frames*8):]
+                    beatDetect()
+                    window.fill((0,0,0))
+                    pygame.display.flip()
+
+        
             
             

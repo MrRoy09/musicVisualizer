@@ -1,5 +1,9 @@
 # Music Visualizer in Python
 
-Usage : python ./song_finder.py "url of vid"
+```
+Usage : python ./song_finder.py
+```
+
 <br>
-Use spacebar to change modes (frequency distribution , amplitude vs time , beat detection)
+<br>
+Use enter to change between frequency-time and amplitude-time
